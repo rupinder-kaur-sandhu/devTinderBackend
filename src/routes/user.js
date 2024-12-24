@@ -5,6 +5,8 @@ const userRouter = express.Router();
 const ConnectionRequest = require("../models/connectionRequest");
 const User = require("../models/user");
 
+const USER_SAFE_DATA = "firstName lastName photoUrl age gender about skills";
+
 //get all pending connection request for logged in user
 userRouter.get("/user/requests/received", userAuth, async (req, res) => {
   try {
@@ -40,8 +42,8 @@ userRouter.get("/user/connections", userAuth, async (req, res) => {
         },
       ],
     })
-      .populate("fromUserId", ["firstName", "lastName"])
-      .populate("toUserId", ["firstName", "lastName"]);
+      .populate("fromUserId", USER_SAFE_DATA)
+      .populate("toUserId", USER_SAFE_DATA);
 
     const data = connectionRequest.map((row) => {
       if (row.fromUserId._id.toString() === loggedInUser._id.toString()) {

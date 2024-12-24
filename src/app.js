@@ -7,9 +7,17 @@ const bcrypt = require("bcrypt");
 const cookieParser = require("cookie-parser");
 const jwt = require("jsonwebtoken");
 const { userAuth } = require("./middlewares/auth");
+const cors = require("cors");
 
 app.use(express.json());
 app.use(cookieParser());
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+    methods: ["PATCH", "GET", "POST"],
+  })
+);
 
 const authRouter = require("./routes/auth");
 const profileRouter = require("./routes/profile");
